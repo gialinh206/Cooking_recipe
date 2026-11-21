@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+body { @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100; }
+.input { @apply w-full rounded border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-800; }
+.btn { @apply rounded bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:opacity-50; }
+.btn-outline { @apply rounded border border-gray-400 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800; }
