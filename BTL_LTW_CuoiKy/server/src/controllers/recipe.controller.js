@@ -4,7 +4,7 @@ import Favorite from '../models/Favorite.js';
 import ApiError from '../utils/ApiError.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import { normalize, escapeRegex } from '../utils/normalize.js';
-
+import { removeUploadedFile } from '../utils/removeFile.js';
 const getPaging = (query) => {
   const page = Math.max(1, parseInt(query.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(query.limit, 10) || 12));
@@ -121,20 +121,24 @@ export const createRecipe = asyncHandler(async (req, res) => {
 // PUT /api/recipes/:id  (req.recipe do isRecipeOwner gắn vào)
 export const updateRecipe = asyncHandler(async (req, res) => {
   const recipe = req.recipe;
+  const oldImage = recipe.image;
   recipe.set(pickFields(req.body));
   if (req.file) recipe.image = `/uploads/${req.file.filename}`;
   if (req.user.role !== 'admin') recipe.status = 'pending'; // sửa xong phải duyệt lại
   await recipe.save();
+  if (req.file && oldImage) await removeUploadedFile(oldImage); // dọn ảnh cũ sau khi lưu thành công
   res.json(recipe);
 });
 
 // DELETE /api/recipes/:id
 export const deleteRecipe = asyncHandler(async (req, res) => {
   const id = req.recipe._id;
+  const images = [req.recipe.image, ...req.recipe.steps.map((s) => s.image)];
   await Promise.all([
     req.recipe.deleteOne(),
     Review.deleteMany({ recipe: id }),
     Favorite.deleteMany({ recipe: id }),
   ]);
+  await Promise.all(images.map(removeUploadedFile)); // xóa file ảnh của công thức
   res.json({ message: 'Đã xóa công thức' });
 });

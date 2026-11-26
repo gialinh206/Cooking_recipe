@@ -9,6 +9,7 @@ const AdminLayout = () => (
       <nav className="space-y-1">
         <NavLink end to="/admin" className={cls}>Thống kê</NavLink>
         <NavLink to="/admin/pending" className={cls}>Duyệt công thức</NavLink>
+        <NavLink to="/admin/recipes" className={cls}>Quản lý công thức</NavLink>
         <NavLink to="/admin/reviews" className={cls}>Bình luận</NavLink>
         <NavLink to="/admin/categories" className={cls}>Loại món</NavLink>
       </nav>

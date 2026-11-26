@@ -18,6 +18,7 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import PendingRecipes from './pages/admin/PendingRecipes.jsx';
 import ReviewModeration from './pages/admin/ReviewModeration.jsx';
 import CategoryManager from './pages/admin/CategoryManager.jsx';
+import AdminRecipes from './pages/admin/AdminRecipes.jsx';
 
 const App = () => (
   <Routes>
@@ -41,6 +42,7 @@ const App = () => (
     <Route path="admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
       <Route index element={<AdminDashboard />} />
       <Route path="pending" element={<PendingRecipes />} />
+      <Route path="recipes" element={<AdminRecipes />} />
       <Route path="reviews" element={<ReviewModeration />} />
       <Route path="categories" element={<CategoryManager />} />
     </Route>

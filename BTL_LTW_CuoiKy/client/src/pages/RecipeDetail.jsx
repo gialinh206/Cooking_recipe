@@ -37,7 +37,7 @@ const RecipeDetail = () => {
     if (!window.confirm('Xóa công thức này?')) return;
     try {
       await api.delete(`/recipes/${id}`);
-      navigate('/my-recipes');
+      navigate(user.role === 'admin' ? '/admin/recipes' : '/my-recipes');
     } catch (err) { setMsg(errMsg(err)); }
   };
   const handleReviewed = () => { reviews.refetch(); };
